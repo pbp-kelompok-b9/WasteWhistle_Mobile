@@ -1,8 +1,16 @@
 # wastewhistle_mobile
 
-A new Flutter project.
+**WasteWhistle APK - Powered by Flutter**
 
-## Getting Started
+## Anggota Kelompok
+
+1. Justin Lie - 2506591961
+2. 
+3. 
+4. 
+5. 
+
+## Getting Started (Written by Flutter)
 
 This project is a starting point for a Flutter application.
 
