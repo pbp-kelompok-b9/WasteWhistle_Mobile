@@ -1,25 +1,30 @@
 # wastewhistle_mobile
 
-**WasteWhistle APK - Powered by Flutter**
+**WasteWhistle Mobile - Powered by Flutter**
 
-## Anggota Kelompok
+## Anggota
+- Ahmad Rafa Robyan 2506620721
+- Justin Lie 2506591961
+- Priskila Abigail Magaini 2506590252
+- Syakira Aqilah Amru 2506541622
+- Adriel Raynard Davis Sihotang 2506587150
 
-1. Justin Lie - 2506591961
-2. 
-3. 
-4. 
-5. 
+## Deskripsi Aplikasi
+Tumpukan sampah yang tidak kunjung hilang? Sudah melaporkannya ke pihak berwajib tetapi seringkali terlupakan? WasteWhistle adalah solusinya.
+Aplikasi WasteWhistle adalah aplikasi melacak dan menetapkan keberadaan sampah yang dilaporkan oleh pengguna aplikasi. Pada aplikasi ini, para pengguna dapat melaporkan titik sampah yang belum dibersihkan dan menghasilkan poin yang dapat ditukarkan dengan hadiah. Laporan yang sudah dibuat akan diterima oleh para staf dan akan diatasi segera. 
 
-## Getting Started (Written by Flutter)
+Melalui aplikasi ini, pengguna dapat melacak kondisi dari laporan yang sudah dibuat. Selain itu, pengguna dapat mencari info mengenai lokasi bank sampah terdekat, serta mendapatkan edukasi tambahan mengenai pemilahan sampah.
 
-This project is a starting point for a Flutter application.
+## Daftar Modul
+1. Dashboard - Menampilkan lokasi laporan dan bank sampah serta memiliki fitur komentar untuk para user (Rafa)
+2. Directory - Menampilkan daftar lokasi bank sampah yang dapat diisi manual oleh staf atau diambil dari OpenStreetMap API (Justin)
+3. Reporting - Membuat tiket report dari user agar titik lokasi sampah dapat diatasi oleh staf (Adriel)
+4. Education - Membuat halaman edukasi bagi user, serta memperbolehkan staf untuk menambahkan informasi-informasi penting mengenai pengelolaan sampah (Syakira)
+5. Rewards - Menghitung jumlah poin yang diperoleh oleh user dan menampilkan data hadiah yang dapat ditukarkan (Priskila)
 
-A few resources to get you started if this is your first Flutter project:
+## Peran Pengguna
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- Pengguna Terdaftar: Dapat melaporkan adanya sampah yang terlihat di sekeliling mereka dan memberikan peringatan di aplikasi dengan keberadaan sampah lainnya, serta mengakses informasi mengenai lokasi bank sampah, edukasi, dan hadiah.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Staf & Superuser: Dapat menambahkan lokasi bank sampah, informasi edukasi, serta data hadiah. Dapat menetapkan kondisi laporan yang diterima menjadi 'selesai' atau 'belum selesai'.
+
