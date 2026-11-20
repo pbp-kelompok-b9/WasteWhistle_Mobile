@@ -28,6 +28,10 @@ Melalui aplikasi ini, pengguna dapat melacak kondisi dari laporan yang sudah dib
 
 - Staf & Superuser: Dapat menambahkan lokasi bank sampah, informasi edukasi, serta data hadiah. Dapat menetapkan kondisi laporan yang diterima menjadi 'selesai' atau 'belum selesai'.
 
+## Link Figma
+
+https://www.figma.com/design/QfKI77MxBIhJvfUgibyrIF/WasteWhistle?node-id=233-546&t=glHIQ5naaoAtMKZi-0
+
 ## Integrasi Aplikasi Mobile dan Situs Web
 
 Aplikasi Flutter dan situs web WasteWhistle menggunakan backend Django yang sama. Data disimpan dan dikelola di server di mana aplikasi mobile mengirim permintaan HTTP ke web service Django REST Framework (DRF), lalu menerima respons dalam format JSON. Dengan begitu, perubahan data yang dilakukan melalui situs web maupun aplikasi mobile mengacu pada sumber data yang sama.
