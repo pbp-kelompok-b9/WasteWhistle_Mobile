@@ -35,7 +35,7 @@ Aplikasi Flutter dan situs web WasteWhistle menggunakan backend Django yang sama
 Alur umumnya:
 
 1. Aplikasi mengirim request ke alamat server PWS dengan path endpoint dan metode HTTP yang sesuai (`GET` untuk membaca, `POST` untuk membuat/menjalankan aksi, `PUT` atau `PATCH` untuk mengubah, dan `DELETE` untuk menghapus).
-2. Untuk data yang memerlukan login, aplikasi menyertakan kredensial autentikasi sesuai endpoint. Endpoint Education menyediakan autentikasi token: ambil token melalui `POST /api/v1/auth/token/`, lalu kirim sebagai header `Authorization: Token <token>`. 
+2. Untuk data yang memerlukan login, aplikasi menyertakan kredensial autentikasi sesuai endpoint. 
 3. Django memeriksa izin, memvalidasi data melalui serializer, menjalankan proses pada database, dan mengirim status HTTP serta respons JSON. Aplikasi kemudian menampilkan data atau pesan hasil kepada pengguna.
 
 Gunakan domain PWS sebagai base URL saat aplikasi terhubung ke server. Path di bawah merupakan path relatif terhadap domain tersebut.
@@ -54,17 +54,17 @@ Prefix: `/comment-api/v1/`. Endpoint ini menggunakan sesi Django dan memerlukan 
 
 ### Rewards
 
-Prefix: `/api/v1/rewards/`. Daftar dan detail hadiah dapat dibaca tanpa login. Pengelolaan hadiah memerlukan akun staf sedangkan penukaran memerlukan login.
+Prefix: `/reward-api/v1/rewards/`. Daftar dan detail hadiah dapat dibaca tanpa login. Pengelolaan hadiah memerlukan akun staf sedangkan penukaran memerlukan login.
 
 | Endpoint | Metode | Fungsi |
 |---|---|---|
-| `/api/v1/rewards/` | `GET` | Mengambil daftar hadiah. Filter opsional: `kategori`, `maks_poin`, dan `tersedia=1`. |
-| `/api/v1/rewards/<id>/` | `GET` | Mengambil detail hadiah. |
-| `/api/v1/rewards/` | `POST` | Menambahkan hadiah (staf). |
-| `/api/v1/rewards/<id>/` | `PUT`, `PATCH` | Mengubah hadiah (staf). |
-| `/api/v1/rewards/<id>/` | `DELETE` | Menghapus hadiah (staf). Hadiah yang pernah ditukar tidak dapat dihapus. |
-| `/api/v1/rewards/<id>/redeem/` | `POST` | Menukar poin pengguna dengan hadiah dan menghasilkan kode voucher (login). |
-| `/api/v1/rewards/me/` | `GET` | Mengambil ringkasan poin, level, voucher, dan riwayat transaksi pengguna. |
+| `/reward-api/v1/rewards/` | `GET` | Mengambil daftar hadiah. Filter opsional: `kategori`, `maks_poin`, dan `tersedia=1`. |
+| `/reward-api/v1/rewards/<id>/` | `GET` | Mengambil detail hadiah. |
+| `/reward-api/v1/rewards/` | `POST` | Menambahkan hadiah (staf). |
+| `/reward-api/v1/rewards/<id>/` | `PUT`, `PATCH` | Mengubah hadiah (staf). |
+| `/reward-api/v1/rewards/<id>/` | `DELETE` | Menghapus hadiah (staf). Hadiah yang pernah ditukar tidak dapat dihapus. |
+| `/reward-api/v1/rewards/<id>/redeem/` | `POST` | Menukar poin pengguna dengan hadiah dan menghasilkan kode voucher (login). |
+| `/reward-api/v1/rewards/me/` | `GET` | Mengambil ringkasan poin, level, voucher, dan riwayat transaksi pengguna. |
 
 ### Directory
 
@@ -80,22 +80,36 @@ Prefix: `/directory-api/v1/`. Data bank sampah dapat dibaca tanpa login sedangka
 
 ### Education
 
-Prefix: `/api/v1/`. Konten edukasi dapat dibaca tanpa login sedangkan pembuatan, perubahan, dan penghapusan konten hanya untuk staf. Operasi kuis memerlukan autentikasi pengguna. Endpoint modul ini menerima autentikasi sesi atau token.
+Prefix: `/education-api/v1/`. Konten edukasi dapat dibaca tanpa login sedangkan pembuatan, perubahan, dan penghapusan konten hanya untuk staf. Operasi kuis memerlukan autentikasi pengguna. Endpoint modul ini menerima autentikasi sesi atau token.
 
 | Endpoint | Metode | Fungsi |
 |---|---|---|
-| `/api/v1/auth/token/` | `POST` | Meminta token autentikasi menggunakan kredensial akun. |
-| `/api/v1/auth/token/revoke/` | `POST` | Mencabut token pengguna yang sedang digunakan. |
-| `/api/v1/waste-guides/` | `GET`, `POST` | Membaca daftar panduan (opsional `?q=`) atau menambah panduan (staf). |
-| `/api/v1/waste-guides/<uuid>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Membaca detail atau mengelola panduan (perubahan hanya untuk staf). |
-| `/api/v1/decomposition-infos/` | `GET`, `POST` | Membaca daftar informasi waktu penguraian atau menambah data (staf). |
-| `/api/v1/decomposition-infos/<uuid>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Membaca detail atau mengelola informasi waktu penguraian (perubahan hanya untuk staf). |
-| `/api/v1/myths-facts/` | `GET`, `POST` | Membaca daftar mitos/fakta atau menambah data (staf). |
-| `/api/v1/myths-facts/<uuid>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Membaca detail atau mengelola data mitos/fakta (perubahan hanya untuk staf). |
-| `/api/v1/quiz/today/` | `GET` | Memeriksa status dan mengambil kuis harian pengguna. |
-| `/api/v1/quiz/start/` | `POST` | Memulai kuis harian. |
-| `/api/v1/quiz/answer/` | `POST` | Mengirim jawaban sebuah soal dan menerima umpan balik. |
-| `/api/v1/quiz/attempts/` | `GET`, `POST` | Mengambil riwayat kuis yang selesai (`GET`) atau mengirim hasil kuis hari ini (`POST`). |
+| `/education-api/v1/auth/token/` | `POST` | Meminta token autentikasi menggunakan kredensial akun. |
+| `/education-api/v1/auth/token/revoke/` | `POST` | Mencabut token pengguna yang sedang digunakan. |
+| `/education-api/v1/waste-guides/` | `GET`, `POST` | Membaca daftar panduan (opsional `?q=`) atau menambah panduan (staf). |
+| `/education-api/v1/waste-guides/<uuid>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Membaca detail atau mengelola panduan (perubahan hanya untuk staf). |
+| `/education-api/v1/decomposition-infos/` | `GET`, `POST` | Membaca daftar informasi waktu penguraian atau menambah data (staf). |
+| `/education-api/v1/decomposition-infos/<uuid>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Membaca detail atau mengelola informasi waktu penguraian (perubahan hanya untuk staf). |
+| `/education-api/v1/myths-facts/` | `GET`, `POST` | Membaca daftar mitos/fakta atau menambah data (staf). |
+| `/education-api/v1/myths-facts/<uuid>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Membaca detail atau mengelola data mitos/fakta (perubahan hanya untuk staf). |
+| `/education-api/v1/quiz/today/` | `GET` | Memeriksa status dan mengambil kuis harian pengguna. |
+| `/education-api/v1/quiz/start/` | `POST` | Memulai kuis harian. |
+| `/education-api/v1/quiz/answer/` | `POST` | Mengirim jawaban sebuah soal dan menerima umpan balik. |
+| `/education-api/v1/quiz/attempts/` | `GET`, `POST` | Mengambil riwayat kuis yang selesai (`GET`) atau mengirim hasil kuis hari ini (`POST`). |
+
+### Reporting
+
+Prefix: `/report-api/v1/`. Seluruh endpoint berikut membutuhkan autentikasi. API Reporting terpisah dari halaman web lama di `/reporting/`.
+
+| Endpoint | Metode | Fungsi |
+|---|---|---|
+| `/report-api/v1/auth/token/` | `POST` | Meminta token autentikasi menggunakan kredensial akun. |
+| `/report-api/v1/reports/` | `GET` | Mengambil riwayat laporan milik pengguna. |
+| `/report-api/v1/reports/` | `POST` | Membuat laporan atas nama pengguna yang masuk. |
+| `/report-api/v1/reports/map/` | `GET` | Mengambil titik dan status semua laporan untuk peta bersama. |
+| `/report-api/v1/reports/{id}/` | `GET`, `PUT`, `PATCH` | Membaca atau mengubah laporan milik pengguna. |
+| `/report-api/v1/reports/{id}/` | `DELETE` | Menghapus laporan milik pengguna. Staf dan superuser juga dapat menghapus laporan warga. |
+| `/report-api/v1/reports/{id}/resolve/` | `POST` | Menandai laporan selesai sebagai pelapor, staf, atau superuser. |
 
 ## Checkpoint 1 — Reporting
 
@@ -103,24 +117,11 @@ Dari tab mana pun, pilih **Lapor Sampah** di kanan atas. Halaman ini menampilkan
 
 ## Alur integrasi mobile dan web
 
-Flutter akan memakai akun dari situs WasteWhistle. Untuk Reporting, klien memperoleh token melalui `POST /api/v1/auth/token/` dengan `username` dan `password`, lalu mengirim header `Authorization: Token <token>` pada permintaan berikutnya. API DRF memvalidasi data, menetapkan pelapor dari akun yang masuk, dan menyimpan laporan pada model Django yang juga dibaca situs PWS. Satu laporan baru menghasilkan 10 poin melalui modul Rewards. Perubahan status oleh petugas di web akan terlihat saat aplikasi memuat ulang laporan.
+Flutter akan memakai akun dari situs WasteWhistle. Untuk Reporting, klien memperoleh token melalui `POST /report-api/v1/auth/token/` dengan `username` dan `password`, lalu mengirim header `Authorization: Token <token>` pada permintaan berikutnya. API DRF memvalidasi data, menetapkan pelapor dari akun yang masuk, dan menyimpan laporan pada model Django yang juga dibaca situs PWS. Satu laporan baru menghasilkan 10 poin melalui modul Rewards. Perubahan status oleh petugas di web akan terlihat saat aplikasi memuat ulang laporan.
 
 Dashboard memakai laporan bersama untuk peta dan API komentar untuk diskusi. Directory menyediakan lokasi bank sampah, Education menyajikan materi dan kuis, dan Rewards menyediakan katalog hadiah, penukaran, dan saldo poin. Implementasi klien mobile untuk alur data tersebut masuk tahap berikutnya.
 
-### Endpoint Reporting
-
-Seluruh endpoint berikut membutuhkan autentikasi. Jalur ini relatif terhadap host Django. Endpoint API terpisah dari halaman web lama di `/reporting/`.
-
-| Metode | Jalur | Kegunaan dan hak akses |
-| --- | --- | --- |
-| GET | `/api/v1/reports/` | Riwayat laporan milik pengguna. |
-| POST | `/api/v1/reports/` | Buat laporan atas nama pengguna yang masuk. |
-| GET | `/api/v1/reports/map/` | Baca titik dan status semua laporan untuk peta bersama. |
-| GET, PUT, PATCH | `/api/v1/reports/{id}/` | Baca atau sunting laporan sendiri. |
-| DELETE | `/api/v1/reports/{id}/` | Hapus laporan sendiri. Staf dan superuser juga dapat menghapus laporan warga. |
-| POST | `/api/v1/reports/{id}/resolve/` | Tandai selesai sebagai pelapor, staf, atau superuser. |
-
-Contoh isi JSON untuk membuat laporan.
+Contoh isi JSON untuk membuat laporan:
 
 ```json
 {
@@ -148,7 +149,7 @@ python manage.py test reporting.test_api
 python manage.py runserver
 ```
 
-API lokal dapat diakses melalui `http://127.0.0.1:8000/api/v1/reports/`. Permintaan tanpa autentikasi menghasilkan `401`. Untuk mencoba dengan akun lokal, masuk melalui `/api-auth/login/` atau gunakan token seperti dijelaskan di atas. Ketersediaan endpoint di PWS mengikuti versi backend yang telah dideploy.
+API lokal dapat diakses melalui `http://127.0.0.1:8000/report-api/v1/reports/`. Permintaan tanpa autentikasi menghasilkan `401`. Untuk mencoba dengan akun lokal, masuk melalui `/api-auth/login/` atau gunakan token seperti dijelaskan di atas. Ketersediaan endpoint di PWS mengikuti versi backend yang telah dideploy.
 
 ## Tautan proyek
 
