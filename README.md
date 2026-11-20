@@ -28,3 +28,71 @@ Melalui aplikasi ini, pengguna dapat melacak kondisi dari laporan yang sudah dib
 
 - Staf & Superuser: Dapat menambahkan lokasi bank sampah, informasi edukasi, serta data hadiah. Dapat menetapkan kondisi laporan yang diterima menjadi 'selesai' atau 'belum selesai'.
 
+## Integrasi Aplikasi Mobile dan Situs Web
+
+Aplikasi Flutter dan situs web WasteWhistle menggunakan backend Django yang sama. Data disimpan dan dikelola di server di mana aplikasi mobile mengirim permintaan HTTP ke web service Django REST Framework (DRF), lalu menerima respons dalam format JSON. Dengan begitu, perubahan data yang dilakukan melalui situs web maupun aplikasi mobile mengacu pada sumber data yang sama.
+
+Alur umumnya:
+
+1. Aplikasi mengirim request ke alamat server PWS dengan path endpoint dan metode HTTP yang sesuai (`GET` untuk membaca, `POST` untuk membuat/menjalankan aksi, `PUT` atau `PATCH` untuk mengubah, dan `DELETE` untuk menghapus).
+2. Untuk data yang memerlukan login, aplikasi menyertakan kredensial autentikasi sesuai endpoint. Endpoint Education menyediakan autentikasi token: ambil token melalui `POST /api/v1/auth/token/`, lalu kirim sebagai header `Authorization: Token <token>`. 
+3. Django memeriksa izin, memvalidasi data melalui serializer, menjalankan proses pada database, dan mengirim status HTTP serta respons JSON. Aplikasi kemudian menampilkan data atau pesan hasil kepada pengguna.
+
+Gunakan domain PWS sebagai base URL saat aplikasi terhubung ke server. Path di bawah merupakan path relatif terhadap domain tersebut.
+
+### Comment
+
+Prefix: `/comment-api/v1/`. Endpoint ini menggunakan sesi Django dan memerlukan pengguna terautentikasi.
+
+| Endpoint | Metode | Fungsi |
+|---|---|---|
+| `/comment-api/v1/comments/` | `GET` | Mengambil komentar milik pengguna yang sedang login. Mendukung pencarian dengan parameter `?q=`. |
+| `/comment-api/v1/comments/` | `POST` | Membuat komentar sebagai pengguna yang sedang login. |
+| `/comment-api/v1/comments/<id>/` | `GET` | Mengambil detail komentar. |
+| `/comment-api/v1/comments/<id>/` | `PUT`, `PATCH` | Mengubah komentar (izin mengikuti aturan pemilik komentar atau staf). |
+| `/comment-api/v1/comments/<id>/` | `DELETE` | Menghapus komentar sesuai izin pemilik komentar atau staf. |
+
+### Rewards
+
+Prefix: `/api/v1/rewards/`. Daftar dan detail hadiah dapat dibaca tanpa login. Pengelolaan hadiah memerlukan akun staf sedangkan penukaran memerlukan login.
+
+| Endpoint | Metode | Fungsi |
+|---|---|---|
+| `/api/v1/rewards/` | `GET` | Mengambil daftar hadiah. Filter opsional: `kategori`, `maks_poin`, dan `tersedia=1`. |
+| `/api/v1/rewards/<id>/` | `GET` | Mengambil detail hadiah. |
+| `/api/v1/rewards/` | `POST` | Menambahkan hadiah (staf). |
+| `/api/v1/rewards/<id>/` | `PUT`, `PATCH` | Mengubah hadiah (staf). |
+| `/api/v1/rewards/<id>/` | `DELETE` | Menghapus hadiah (staf). Hadiah yang pernah ditukar tidak dapat dihapus. |
+| `/api/v1/rewards/<id>/redeem/` | `POST` | Menukar poin pengguna dengan hadiah dan menghasilkan kode voucher (login). |
+| `/api/v1/rewards/me/` | `GET` | Mengambil ringkasan poin, level, voucher, dan riwayat transaksi pengguna. |
+
+### Directory
+
+Prefix: `/directory-api/v1/`. Data bank sampah dapat dibaca tanpa login sedangkan operasi tulis mengikuti izin pemilik data atau staf.
+
+| Endpoint | Metode | Fungsi |
+|---|---|---|
+| `/directory-api/v1/wastebanks/` | `GET` | Mengambil daftar bank sampah dengan mendukung pencarian nama, alamat, kontak, atau email dengan `?name=`. |
+| `/directory-api/v1/wastebanks/` | `POST` | Menambahkan data bank sampah sesuai izin. |
+| `/directory-api/v1/wastebanks/<uuid>/` | `GET` | Mengambil detail satu bank sampah. |
+| `/directory-api/v1/wastebanks/<uuid>/` | `PUT`, `PATCH` | Mengubah data bank sampah sesuai izin. |
+| `/directory-api/v1/wastebanks/<uuid>/` | `DELETE` | Menghapus data bank sampah sesuai izin. |
+
+### Education
+
+Prefix: `/api/v1/`. Konten edukasi dapat dibaca tanpa login sedangkan pembuatan, perubahan, dan penghapusan konten hanya untuk staf. Operasi kuis memerlukan autentikasi pengguna. Endpoint modul ini menerima autentikasi sesi atau token.
+
+| Endpoint | Metode | Fungsi |
+|---|---|---|
+| `/api/v1/auth/token/` | `POST` | Meminta token autentikasi menggunakan kredensial akun. |
+| `/api/v1/auth/token/revoke/` | `POST` | Mencabut token pengguna yang sedang digunakan. |
+| `/api/v1/waste-guides/` | `GET`, `POST` | Membaca daftar panduan (opsional `?q=`) atau menambah panduan (staf). |
+| `/api/v1/waste-guides/<uuid>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Membaca detail atau mengelola panduan (perubahan hanya untuk staf). |
+| `/api/v1/decomposition-infos/` | `GET`, `POST` | Membaca daftar informasi waktu penguraian atau menambah data (staf). |
+| `/api/v1/decomposition-infos/<uuid>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Membaca detail atau mengelola informasi waktu penguraian (perubahan hanya untuk staf). |
+| `/api/v1/myths-facts/` | `GET`, `POST` | Membaca daftar mitos/fakta atau menambah data (staf). |
+| `/api/v1/myths-facts/<uuid>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Membaca detail atau mengelola data mitos/fakta (perubahan hanya untuk staf). |
+| `/api/v1/quiz/today/` | `GET` | Memeriksa status dan mengambil kuis harian pengguna. |
+| `/api/v1/quiz/start/` | `POST` | Memulai kuis harian. |
+| `/api/v1/quiz/answer/` | `POST` | Mengirim jawaban sebuah soal dan menerima umpan balik. |
+| `/api/v1/quiz/attempts/` | `GET`, `POST` | Mengambil riwayat kuis yang selesai (`GET`) atau mengirim hasil kuis hari ini (`POST`). |
