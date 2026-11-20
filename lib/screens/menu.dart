@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
+
 import '../widgets/bottom_navigation.dart';
 import 'education.dart';
-import 'explore.dart';
 import 'report_waste.dart';
 import 'rewards.dart';
 import 'waste_bank.dart';
@@ -19,7 +19,6 @@ class _MyHomePageState extends State<MyHomePage> {
   // Urutannya harus sama dengan urutan di bottom navigation
   final List<Widget> _pages = const [
     HomeContent(),
-    ExplorePage(),
     WasteBankPage(),
     EducationPage(),
     RewardsPage(),
@@ -27,7 +26,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<String> _titles = const [
     'Waste Whistle',
-    'Telusuri',
     'Bank Sampah',
     'Edukasi',
     'Hadiah',
@@ -51,13 +49,17 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               icon: const Icon(Icons.campaign),
               label: const Text('Lapor Sampah'),
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                final destination = await Navigator.push<int>(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const ReportWastePage(),
+                  MaterialPageRoute<int>(
+                    builder: (context) =>
+                        ReportWastePage(tabIndex: _currentIndex),
                   ),
                 );
+                if (mounted && destination != null) {
+                  setState(() => _currentIndex = destination);
+                }
               },
             ),
           ),

@@ -96,3 +96,64 @@ Prefix: `/api/v1/`. Konten edukasi dapat dibaca tanpa login sedangkan pembuatan,
 | `/api/v1/quiz/start/` | `POST` | Memulai kuis harian. |
 | `/api/v1/quiz/answer/` | `POST` | Mengirim jawaban sebuah soal dan menerima umpan balik. |
 | `/api/v1/quiz/attempts/` | `GET`, `POST` | Mengambil riwayat kuis yang selesai (`GET`) atau mengirim hasil kuis hari ini (`POST`). |
+
+## Checkpoint 1 — Reporting
+
+Dari tab mana pun, pilih **Lapor Sampah** di kanan atas. Halaman ini menampilkan kerangka formulir sesuai Figma. **Kembali**, **Batal**, dan tombol kembali perangkat membuka tab asal. Memilih tab di bawah formulir langsung membuka modul tersebut. Pada checkpoint ini, pengguna bisa mencoba isian teks. Peta dan foto berupa pratinjau, dan tombol kirim belum aktif.
+
+## Alur integrasi mobile dan web
+
+Flutter akan memakai akun dari situs WasteWhistle. Untuk Reporting, klien memperoleh token melalui `POST /api/v1/auth/token/` dengan `username` dan `password`, lalu mengirim header `Authorization: Token <token>` pada permintaan berikutnya. API DRF memvalidasi data, menetapkan pelapor dari akun yang masuk, dan menyimpan laporan pada model Django yang juga dibaca situs PWS. Satu laporan baru menghasilkan 10 poin melalui modul Rewards. Perubahan status oleh petugas di web akan terlihat saat aplikasi memuat ulang laporan.
+
+Dashboard memakai laporan bersama untuk peta dan API komentar untuk diskusi. Directory menyediakan lokasi bank sampah, Education menyajikan materi dan kuis, dan Rewards menyediakan katalog hadiah, penukaran, dan saldo poin. Implementasi klien mobile untuk alur data tersebut masuk tahap berikutnya.
+
+### Endpoint Reporting
+
+Seluruh endpoint berikut membutuhkan autentikasi. Jalur ini relatif terhadap host Django. Endpoint API terpisah dari halaman web lama di `/reporting/`.
+
+| Metode | Jalur | Kegunaan dan hak akses |
+| --- | --- | --- |
+| GET | `/api/v1/reports/` | Riwayat laporan milik pengguna. |
+| POST | `/api/v1/reports/` | Buat laporan atas nama pengguna yang masuk. |
+| GET | `/api/v1/reports/map/` | Baca titik dan status semua laporan untuk peta bersama. |
+| GET, PUT, PATCH | `/api/v1/reports/{id}/` | Baca atau sunting laporan sendiri. |
+| DELETE | `/api/v1/reports/{id}/` | Hapus laporan sendiri. Staf dan superuser juga dapat menghapus laporan warga. |
+| POST | `/api/v1/reports/{id}/resolve/` | Tandai selesai sebagai pelapor, staf, atau superuser. |
+
+Contoh isi JSON untuk membuat laporan.
+
+```json
+{
+  "title": "Sampah di dekat halte",
+  "latitude": "-6.208800",
+  "longitude": "106.845600",
+  "location_note": "Di samping jembatan",
+  "description": "Dua kantong plastik menutup saluran air.",
+  "submission_id": "380ca60b-2e90-478b-ac5c-19090e1afffb"
+}
+```
+
+Judul, koordinat, dan deskripsi wajib diisi. `location_note` dan `submission_id` opsional. Klien dapat membuat satu UUID per laporan dan memakainya kembali saat mengulangi pengiriman. Respons pertama adalah `201`. Pengulangan dengan isi identik menghasilkan `200` dan ID laporan yang sama. Pemakaian UUID yang sama untuk isi berbeda menghasilkan `409`. Input tidak valid menghasilkan `400` dengan pesan per kolom.
+
+### Menjalankan dan memeriksa
+
+Di repositori Flutter, jalankan `flutter pub get`, lalu `flutter run`. Gunakan `flutter test` untuk memeriksa navigasi Reporting.
+
+Di repositori Django yang sudah memuat perubahan Reporting, jalankan perintah berikut.
+
+```sh
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py test reporting.test_api
+python manage.py runserver
+```
+
+API lokal dapat diakses melalui `http://127.0.0.1:8000/api/v1/reports/`. Permintaan tanpa autentikasi menghasilkan `401`. Untuk mencoba dengan akun lokal, masuk melalui `/api-auth/login/` atau gunakan token seperti dijelaskan di atas. Ketersediaan endpoint di PWS mengikuti versi backend yang telah dideploy.
+
+## Tautan proyek
+
+- [Desain Figma WasteWhistle](https://www.figma.com/design/QfKI77MxBIhJvfUgibyrIF/WasteWhistle?node-id=233-546&p=f)
+- [Situs WasteWhistle di PWS](https://ahmad-rafa-wastewhistle9b.pws.cs.ui.ac.id/)
+- [Repositori Django](https://github.com/pbp-kelompok-b9/WasteWhistle)
+- APK akan ditambahkan setelah Checkpoint 1.
+- Peta pratinjau Jakarta menggunakan [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright).
