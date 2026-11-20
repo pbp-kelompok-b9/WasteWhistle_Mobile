@@ -1,30 +1,67 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:material_ui/material_ui.dart';
 import 'package:wastewhistle_mobile/main.dart';
+import 'package:wastewhistle_mobile/screens/rewards.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets(
+    'Tab membuka modul yang sesuai dan Reporting kembali ke tab asal',
+    (tester) async {
+      await tester.pumpWidget(const MyApp());
+      expect(find.text('Selamat datang di Waste Whistle!'), findsOneWidget);
+
+      await tester.tap(find.text('Bank Sampah'));
+      await tester.pumpAndSettle();
+      expect(find.text('Direktori Bank Sampah'), findsOneWidget);
+
+      await tester.tap(find.text('Lapor Sampah'));
+      await tester.pumpAndSettle();
+      expect(find.text('Lapor Timbunan Sampah'), findsOneWidget);
+      await tester.tap(find.text('Kembali'));
+      await tester.pumpAndSettle();
+      expect(find.text('Direktori Bank Sampah'), findsOneWidget);
+
+      await tester.tap(find.text('Lapor Sampah'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Edukasi').last);
+      await tester.pumpAndSettle();
+      expect(find.text('Edukasi Sampah'), findsOneWidget);
+      await tester.tap(find.text('Hadiah').last);
+      await tester.pumpAndSettle();
+      expect(find.byType(RewardsPage), findsOneWidget);
+    },
+  );
+
+  testWidgets('Formulir muat di ponsel dan Batal kembali ke beranda', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(360, 640);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(const MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.tap(find.text('Lapor Sampah'));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+    await tester.enterText(find.byType(TextField).first, 'Sampah di halte');
+    await tester.testTextInput.receiveAction(TextInputAction.done);
+    await tester.pumpAndSettle();
+    await tester.dragUntilVisible(
+      find.text('Batal').hitTestable(),
+      find.byType(ListView),
+      const Offset(0, -260),
+    );
+    await tester.pumpAndSettle();
+    expect(
+      tester
+          .widget<FilledButton>(
+            find.byWidgetPredicate((widget) => widget is FilledButton),
+          )
+          .onPressed,
+      isNull,
+    );
+    await tester.tap(find.text('Batal'));
+    await tester.pumpAndSettle();
+    expect(find.text('Selamat datang di Waste Whistle!'), findsOneWidget);
   });
 }
