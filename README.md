@@ -28,3 +28,6 @@ Melalui aplikasi ini, pengguna dapat melacak kondisi dari laporan yang sudah dib
 
 - Staf & Superuser: Dapat menambahkan lokasi bank sampah, informasi edukasi, serta data hadiah. Dapat menetapkan kondisi laporan yang diterima menjadi 'selesai' atau 'belum selesai'.
 
+## Link Figma
+
+https://www.figma.com/design/QfKI77MxBIhJvfUgibyrIF/WasteWhistle?node-id=233-546&t=glHIQ5naaoAtMKZi-0
