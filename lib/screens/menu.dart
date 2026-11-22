@@ -32,15 +32,17 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar
       (
         title: Text("Waste Whistle"),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        foregroundColor: Colors.black,
       ),
       floatingActionButton: FloatingActionButton.extended
       (
           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ReportWastePage())),
           tooltip: "Lapor Sampah",
           icon: const Icon(Icons.campaign),
-          label: const Text("Lapor Sampah")  
+          label: const Text("Lapor Sampah"),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.secondary,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 

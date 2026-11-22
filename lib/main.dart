@@ -1,6 +1,10 @@
 import 'package:material_ui/material_ui.dart';
 import 'screens/menu.dart';
 
+const _green = Color(0x006C49);
+const _background = Color(0xfff8f8fd);
+const _ink = Color(0xff18232c);
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,10 +16,10 @@ class MyApp extends StatelessWidget {
       title: 'Waste Whistle',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
-          secondary: Colors.lightGreen,
+          seedColor: _green,
+          secondary: _background,
         ),
-        scaffoldBackgroundColor: const Color(0xFFEEF6F1), // background utama
+        scaffoldBackgroundColor: _background, // background utama
         useMaterial3: true,
       ),
       home: const MyHomePage(),
