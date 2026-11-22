@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'screens/menu.dart';
 
 const _green = Color(0x006C49);
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: _background, // background utama
         useMaterial3: true,
+        textTheme: GoogleFonts.plusJakartaSansTextTheme()
       ),
       home: const MyHomePage(),
     );

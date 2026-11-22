@@ -1,5 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:google_fonts/google_fonts.dart';
+
 import '../widgets/bottom_navigation.dart';
 import 'education.dart';
 import 'explore.dart';
@@ -35,15 +38,25 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Row // buat icon dan text
         (
             mainAxisSize: MainAxisSize.min, 
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: 
             [
               SvgPicture.asset(
                 'assets/icons/favicon.svg',
-                height: 24, 
-                width: 24,
+                height: 32, 
+                width: 32,
               ),
-              const SizedBox(width: 8),
-              const Text("Waste Whistle"),
+              const SizedBox(width: 4),
+              Text
+              (
+              "Waste Whistle",
+              style: GoogleFonts.plusJakartaSans
+              (
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+
+              ),
         ],
       ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
