@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/bottom_navigation.dart';
 import 'education.dart';
 import 'explore.dart';
@@ -31,7 +32,20 @@ class _MyHomePageState extends State<MyHomePage> {
       // === Top bar ===
       appBar: AppBar
       (
-        title: Text("Waste Whistle"),
+        title: Row // buat icon dan text
+        (
+            mainAxisSize: MainAxisSize.min, 
+            children: 
+            [
+              SvgPicture.asset(
+                'assets/icons/favicon.svg',
+                height: 24, 
+                width: 24,
+              ),
+              const SizedBox(width: 8),
+              const Text("Waste Whistle"),
+        ],
+      ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
         foregroundColor: Colors.black,
       ),
