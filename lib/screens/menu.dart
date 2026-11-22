@@ -24,54 +24,32 @@ class _MyHomePageState extends State<MyHomePage> {
     RewardsPage(),
   ];
 
-  final List<String> _titles = const [
-    'Waste Whistle',
-    'Bank Sampah',
-    'Edukasi',
-    'Hadiah',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // === Top bar ===
-      appBar: AppBar(
-        title: Text(_titles[_currentIndex]),
+      appBar: AppBar
+      (
+        title: Text("Waste Whistle"),
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightGreen,
-                foregroundColor: Colors.white,
-              ),
-              icon: const Icon(Icons.campaign),
-              label: const Text('Lapor Sampah'),
-              onPressed: () async {
-                final destination = await Navigator.push<int>(
-                  context,
-                  MaterialPageRoute<int>(
-                    builder: (context) =>
-                        ReportWastePage(tabIndex: _currentIndex),
-                  ),
-                );
-                if (mounted && destination != null) {
-                  setState(() => _currentIndex = destination);
-                }
-              },
-            ),
-          ),
-        ],
       ),
+      floatingActionButton: FloatingActionButton.extended
+      (
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ReportWastePage())),
+          tooltip: "Lapor Sampah",
+          icon: const Icon(Icons.campaign),
+          label: const Text("Lapor Sampah")  
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
       body: _pages[_currentIndex],
 
       // === Bottom navigation ===
       bottomNavigationBar: AppBottomNavigation(
         currentIndex: _currentIndex,
-        onTap: (index) {
+        onTap: (index) 
+        {
           setState(() {
             _currentIndex = index;
           });
