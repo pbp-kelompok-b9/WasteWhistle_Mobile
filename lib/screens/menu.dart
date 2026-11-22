@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
+
 import '../widgets/bottom_navigation.dart';
 import 'education.dart';
-import 'explore.dart';
 import 'report_waste.dart';
 import 'rewards.dart';
 import 'waste_bank.dart';
@@ -19,7 +19,6 @@ class _MyHomePageState extends State<MyHomePage> {
   // Urutannya harus sama dengan urutan di bottom navigation
   final List<Widget> _pages = const [
     HomeContent(),
-    ExplorePage(),
     WasteBankPage(),
     EducationPage(),
     RewardsPage(),
