@@ -29,39 +29,28 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       // === Top bar ===
-      appBar: AppBar(
+      appBar: AppBar
+      (
         title: Text("Waste Whistle"),
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightGreen,
-                foregroundColor: Colors.white,
-              ),
-              icon: const Icon(Icons.campaign),
-              label: const Text('Lapor Sampah'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ReportWastePage(),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
       ),
+      floatingActionButton: FloatingActionButton.extended
+      (
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ReportWastePage())),
+          tooltip: "Lapor Sampah",
+          icon: const Icon(Icons.campaign),
+          label: const Text("Lapor Sampah")  
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
       body: _pages[_currentIndex],
 
       // === Bottom navigation ===
       bottomNavigationBar: AppBottomNavigation(
         currentIndex: _currentIndex,
-        onTap: (index) {
+        onTap: (index) 
+        {
           setState(() {
             _currentIndex = index;
           });
