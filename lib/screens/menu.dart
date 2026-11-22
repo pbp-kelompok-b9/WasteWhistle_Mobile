@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Text
               (
               "Waste Whistle",
-              style: GoogleFonts.plusJakartaSans
+              style: TextStyle
               (
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -95,11 +95,11 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.eco, size: 80, color: Colors.green),
+          Icon(Icons.eco, size: 80, color: Theme.of(context).colorScheme.primary),
           SizedBox(height: 16),
           Text(
             'Selamat datang di Waste Whistle!',
