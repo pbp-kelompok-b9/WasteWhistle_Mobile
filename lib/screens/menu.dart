@@ -25,20 +25,12 @@ class _MyHomePageState extends State<MyHomePage> {
     RewardsPage(),
   ];
 
-  final List<String> _titles = const [
-    'Waste Whistle',
-    'Telusuri',
-    'Bank Sampah',
-    'Edukasi',
-    'Hadiah',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // === Top bar ===
       appBar: AppBar(
-        title: Text(_titles[_currentIndex]),
+        title: Text("Waste Whistle"),
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
         actions: [
