@@ -35,30 +35,38 @@ class _MyHomePageState extends State<MyHomePage> {
       // === Top bar ===
       appBar: AppBar
       (
-        title: Row // buat icon dan text
-        (
-            mainAxisSize: MainAxisSize.min, 
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: 
-            [
-              SvgPicture.asset(
-                'assets/icons/favicon.svg',
-                height: 32, 
-                width: 32,
-              ),
-              const SizedBox(width: 4),
-              Text
-              (
-              "Waste Whistle",
-              style: TextStyle
-              (
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-
-              ),
-        ],
-      ),
+        title: InkWell(
+            borderRadius: BorderRadius.circular(8), // Cleans up the splash shape corners
+            onTap: () {setState(() => _currentIndex = 0 );},
+            child: Padding
+            (
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Row
+                (
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: 
+                    [
+                        SvgPicture.asset
+                        (
+                            'assets/icons/favicon.svg',
+                            height: 24,
+                            width: 24,
+                        ),
+                        const SizedBox(width: 8),
+                        Text
+                        (
+                          "Waste Whistle",
+                          style: GoogleFonts.plusJakartaSans
+                          (
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                    ],
+                ),
+            ),
+        ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
         foregroundColor: Colors.black,
       ),
