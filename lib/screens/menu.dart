@@ -33,6 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // === Top bar ===
       appBar: AppBar
       (
+        centerTitle: false,
         title: InkWell(
             borderRadius: BorderRadius.circular(8), // Cleans up the splash shape corners
             onTap: () {setState(() => _currentIndex = 0 );},
