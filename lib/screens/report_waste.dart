@@ -161,7 +161,7 @@ class ReportWastePage extends StatelessWidget {
                                     (
                                       onPressed: null,
                                       icon: const Icon(Icons.send_outlined),
-                                      label: const Text('Kirim Laporan Sampah'),
+                                      label: const Text('Kirim'),
                                     ),
                                 ],
                             ),
