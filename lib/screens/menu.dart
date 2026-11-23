@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Text
                         (
                           "Waste Whistle",
-                          style: GoogleFonts.plusJakartaSans
+                          style: TextStyle
                           (
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
