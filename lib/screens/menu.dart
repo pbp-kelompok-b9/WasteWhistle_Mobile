@@ -1,4 +1,7 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/bottom_navigation.dart';
 import 'education.dart';
@@ -30,16 +33,50 @@ class _MyHomePageState extends State<MyHomePage> {
       // === Top bar ===
       appBar: AppBar
       (
-        title: Text("Waste Whistle"),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
+        centerTitle: false,
+        title: InkWell(
+            borderRadius: BorderRadius.circular(8), // Cleans up the splash shape corners
+            onTap: () {setState(() => _currentIndex = 0 );},
+            child: Padding
+            (
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Row
+                (
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: 
+                    [
+                        SvgPicture.asset
+                        (
+                            'assets/icons/favicon.svg',
+                            height: 24,
+                            width: 24,
+                        ),
+                        const SizedBox(width: 8),
+                        Text
+                        (
+                          "Waste Whistle",
+                          style: TextStyle
+                          (
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                    ],
+                ),
+            ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        foregroundColor: Colors.black,
       ),
       floatingActionButton: FloatingActionButton.extended
       (
           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ReportWastePage())),
           tooltip: "Lapor Sampah",
           icon: const Icon(Icons.campaign),
-          label: const Text("Lapor Sampah")  
+          label: const Text("Lapor Sampah"),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.secondary,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
@@ -65,11 +102,11 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.eco, size: 80, color: Colors.green),
+          Icon(Icons.eco, size: 80, color: Theme.of(context).colorScheme.primary),
           SizedBox(height: 16),
           Text(
             'Selamat datang di Waste Whistle!',

@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../widgets/bottom_navigation.dart';
 
@@ -16,71 +17,93 @@ class ReportWastePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: _background,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: _background,
-        title: const Row(
-          children: [
-            Icon(Icons.eco, color: _green),
-            SizedBox(width: 8),
-            Text(
-              'Waste Whistle',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-            ),
-          ],
+        centerTitle: false,
+        leading: IconButton
+        (
+            icon: const Icon(Icons.arrow_back),
+            tooltip: 'Kembali',
+            onPressed: () {
+              Navigator.pop(context);
+            },
         ),
+        backgroundColor: _background,
+        titleSpacing: 0, // Pulls text tight against the back arrow
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/icons/favicon.svg',
+                height: 24,
+                width: 24,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                "Waste Whistle",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
       ),
-      bottomNavigationBar: AppBottomNavigation(
-        currentIndex: tabIndex,
-        onTap: (index) => Navigator.pop(context, index),
-      ),
-      body: SafeArea(
+      body: SafeArea
+      (
         top: false,
-        child: ListView(
+        child: ListView
+        (
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-          children: [
-            Center(
-              child: ConstrainedBox(
+          children: 
+          [
+            Center
+            (
+              child: ConstrainedBox
+              (
                 constraints: const BoxConstraints(maxWidth: 540),
-                child: Column(
+                child: Column
+                (
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: TextButton.icon(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.arrow_back, size: 18),
-                        label: const Text('Kembali'),
-                        style: TextButton.styleFrom(foregroundColor: _green),
-                      ),
-                    ),
+                  children: 
+                  [
                     const _ReportHeader(),
                     const SizedBox(height: 16),
                     DecoratedBox(
-                      decoration: BoxDecoration(
+                      decoration: BoxDecoration
+                      (
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(22),
                       ),
-                      child: Padding(
+                      child: Padding
+                      (
                         padding: const EdgeInsets.all(16),
-                        child: Column(
+                        child: Column
+                        (
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const _ReportField(
+                          children: 
+                          [
+                            const _ReportField
+                            (
                               label: 'Judul Laporan *',
                               hint: 'Contoh: Tumpukan sampah di pinggir kali',
                               limit: 120,
                             ),
                             const SizedBox(height: 20),
-                            const Row(
-                              children: [
-                                Icon(
+                            const Row
+                            (
+                              children: 
+                              [
+                                Icon
+                                (
                                   Icons.pin_drop_outlined,
                                   size: 18,
                                   color: _green,
                                 ),
                                 SizedBox(width: 4),
-                                Expanded(
-                                  child: Text(
+                                Expanded
+                                (
+                                  child: Text
+                                  (
                                     'Titik Lokasi Sampah *',
                                     style: _labelStyle,
                                   ),
@@ -96,38 +119,51 @@ class ReportWastePage extends StatelessWidget {
                               limit: 200,
                             ),
                             const SizedBox(height: 20),
-                            const Text(
+                            const Text
+                            (
                               'Unggah Foto Bukti Sampah',
                               style: _labelStyle,
                             ),
                             const SizedBox(height: 8),
-                            const _InfoPanel(
+                            const _InfoPanel
+                            (
                               color: Color(0xfff2f2fc),
                               icon: Icons.add_a_photo_outlined,
                               text: 'Belum ada foto bukti',
                             ),
                             const SizedBox(height: 20),
-                            const _ReportField(
+                            const _ReportField
+                            (
                               label: 'Deskripsi Tambahan *',
                               hint: 'Ceritakan kondisi sampah di lokasi.',
                               lines: 3,
                               limit: 2000,
                             ),
                             const SizedBox(height: 16),
-                            const _InfoPanel(
+                            const _InfoPanel
+                            (
                               color: Color(0xffd7faeb),
                               icon: Icons.eco_outlined,
                               text: '+10 Eco-Points per laporan baru',
                             ),
                             const SizedBox(height: 16),
-                            FilledButton.icon(
-                              onPressed: null,
-                              icon: const Icon(Icons.send_outlined),
-                              label: const Text('Kirim Laporan Sampah'),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('Batal'),
+                            Row
+                            (
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: 
+                                [
+                                    TextButton
+                                    (
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Batal'),
+                                    ),
+                                    FilledButton.icon
+                                    (
+                                      onPressed: null,
+                                      icon: const Icon(Icons.send_outlined),
+                                      label: const Text('Kirim Laporan Sampah'),
+                                    ),
+                                ],
                             ),
                           ],
                         ),
@@ -246,8 +282,17 @@ class _ReportField extends StatelessWidget {
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
+                borderSide: BorderSide.none, 
               ),
+              enabledBorder: OutlineInputBorder
+              (
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: const BorderSide
+                (
+                    color: Color(0xff646973),
+                    width: 0.5
+                )
+              )
             ),
           ),
         ),

@@ -15,6 +15,7 @@ class AppBottomNavigation extends StatelessWidget {
     return NavigationBar(
       selectedIndex: currentIndex,
       onDestinationSelected: onTap,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       destinations: const [
         NavigationDestination(
           icon: Icon(Icons.home_outlined),
